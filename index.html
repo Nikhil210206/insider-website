@@ -396,35 +396,6 @@
           resumeViewLink.href = '#';
           resumeViewLink.classList.add('hidden');
         }, 2000);
-
-        // Uncomment below for actual API integration
-        /*
-        fetch('YOUR_API_ENDPOINT', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        })
-          .then(async (res) => {
-            const result = await res.json();
-            document.getElementById("loader-overlay").classList.add("hidden");
-            if (res.ok) {
-              form.reset();
-              document.querySelectorAll('.time-slot').forEach(el => {
-                el.classList.remove('selected');
-              });
-              document.getElementById("success-modal").classList.remove("hidden");
-              document.getElementById("form-message").textContent = "";
-            } else {
-              document.getElementById("form-message").textContent =
-                result.message || "Something went wrong. Please try again.";
-            }
-          })
-          .catch(() => {
-            document.getElementById("loader-overlay").classList.add("hidden");
-            document.getElementById("form-message").textContent =
-              "Something went wrong. Please try again.";
-          });
-        */
       });
 
       // Close modal
