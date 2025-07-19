@@ -8,7 +8,7 @@ const CONFIG = {
     "2:00 PM - 3:00 PM",
     "3:00 PM - 4:00 PM",
     "4:00 PM - 5:00 PM",
-    "5:00 PM - 6:00 PM"
+    "5:30 PM - 6:00 PM"
   ],
 
   // reCAPTCHA site key (replace with your own)
