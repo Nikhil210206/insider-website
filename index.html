@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SRM Insider Community - Backend Developer Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+      .g-recaptcha {
+        filter: invert(1) hue-rotate(180deg) !important;
+        -webkit-filter: invert(1) hue-rotate(180deg) !important;
+        margin-bottom: 0.5rem;
+      }
+      .grecaptcha-badge {
+        filter: invert(1) hue-rotate(180deg) !important;
+      }
+      
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #23262F;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #45B4FF;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1e90ff;
+      }
+      
+      /* Date picker styling */
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(1) hue-rotate(180deg);
+      }
+      
+      /* Time slot styling */
+      .time-slot {
+        transition: all 0.3s ease;
+      }
+      .time-slot:hover {
+        transform: translateY(-2px);
+      }
+      .time-slot.selected {
+        background: #45B4FF !important;
+        color: black !important;
+        border-color: #45B4FF !important;
+      }
+    </style>
+  </head>
+  <body class="bg-black min-h-screen flex items-center justify-center p-4">
+    <!-- Loader Overlay -->
+    <div
+      id="loader-overlay"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-70 hidden"
+    >
+      <div class="flex flex-col items-center">
+        <svg
+          class="animate-spin h-12 w-12 text-[#45B4FF] mb-4"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="#45B4FF"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="#45B4FF"
+            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+          ></path>
+        </svg>
+        <span class="text-[#45B4FF] font-semibold">Submitting Application...</span>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div
+      id="success-modal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 hidden"
+    >
+      <div
+        class="bg-[#181A20] rounded-2xl shadow-2xl p-8 max-w-sm w-full border border-[#23262F] text-center"
+      >
+        <img
+          src="https://res.cloudinary.com/dnyqwoeyh/image/upload/v1751353460/logo_rsvmqr.jpg"
+          alt="Logo"
+          class="w-16 h-16 mx-auto mb-4 rounded-full border-2 border-[#23262F]"
+        />
+        <h3 class="text-2xl font-bold mb-2" style="color: #45b4ff">
+          Application Submitted!
+        </h3>
+        <p class="mb-4 text-[#45B4FF]">
+          Thank you for your interest in joining the SRM Insider Community!<br />
+          We will review your application and contact you soon.
+        </p>
+        <button
+          id="close-modal"
+          class="mt-2 bg-[#45B4FF] hover:bg-[#1e90ff] text-black font-bold py-2 px-6 rounded-xl shadow transition"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Form -->
+    <form
+      id="enquiry-form"
+      class="bg-[#181A20] shadow-2xl rounded-2xl px-8 pt-8 pb-8 mb-4 w-full max-w-2xl space-y-6 border border-[#23262F] max-h-[90vh] overflow-y-auto"
+    >
+      <!-- Header -->
+      <div class="flex flex-col items-center mb-6">
+        <img
+          src="https://res.cloudinary.com/dnyqwoeyh/image/upload/v1751353460/logo_rsvmqr.jpg"
+          alt="SRM Insider Logo"
+          class="w-20 h-20 rounded-full shadow-lg mb-3 border-4 border-[#23262F]"
+        />
+        <h2 class="text-3xl font-extrabold text-center" style="color: #45b4ff">
+          Backend Developer Application
+        </h2>
+        <p
+          class="text-center text-base mt-1"
+          style="color: #45b4ff; opacity: 0.8"
+        >
+          Join the SRM Insider Community
+        </p>
+      </div>
+
+      <!-- Personal Information Section -->
+      <div class="space-y-4">
+        <h3 class="text-xl font-bold" style="color: #45b4ff">Personal Information</h3>
+        
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          required
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
+        />
+        
+        <input
+          type="email"
+          name="srm_email"
+          placeholder="SRM Email ID (@srmist.edu.in)"
+          pattern="[a-z0-9._%+-]+@srmist\.edu\.in$"
+          required
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
+        />
+        
+        <input
+          type="email"
+          name="personal_email"
+          placeholder="Personal Email ID"
+          required
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
+        />
+        
+        <input
+          type="tel"
+          name="mobile"
+          placeholder="Mobile Number"
+          pattern="[0-9]{10}"
+          required
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
+        />
+        
+        <input
+          type="text"
+          name="registration_number"
+          placeholder="SRM Registration Number"
+          required
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
+        />
+      </div>
+
+      <!-- Social Media Section -->
+      <div class="space-y-4">
+        <h3 class="text-xl font-bold" style="color: #45b4ff">Social Media Profiles</h3>
+        
+        <input
+          type="url"
+          name="github"
+          placeholder="GitHub Profile URL"
+          required
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
+        />
+        
+        <input
+          type="url"
+          name="linkedin"
+          placeholder="LinkedIn Profile URL"
+          required
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
+        />
+      </div>
+
+      <!-- Motivation Section -->
+      <div class="space-y-4">
+        <h3 class="text-xl font-bold" style="color: #45b4ff">Motivation & Experience</h3>
+        
+        <textarea
+          name="why_join"
+          placeholder="Why do you want to join the SRM Insider Community?"
+          required
+          rows="4"
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm resize-none"
+        ></textarea>
+        
+        <textarea
+          name="standout"
+          placeholder="What makes you stand out from other candidates?"
+          required
+          rows="4"
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm resize-none"
+        ></textarea>
+        
+        <textarea
+          name="projects"
+          placeholder="Describe the projects you have worked on before (include technologies used, your role, and outcomes)"
+          required
+          rows="4"
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm resize-none"
+        ></textarea>
+        
+        <textarea
+          name="achievements"
+          placeholder="List your achievements, certifications, hackathons, or any relevant experience"
+          required
+          rows="4"
+          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm resize-none"
+        ></textarea>
+      </div>
+
+      <!-- Interview Scheduling Section -->
+      <div class="space-y-4">
+        <h3 class="text-xl font-bold" style="color: #45b4ff">Interview Scheduling</h3>
+        
+        <div class="space-y-3">
+          <label class="block text-[#45B4FF] font-medium">Select Interview Date:</label>
+          <input
+            type="date"
+            name="interview_date"
+            id="interview_date"
+            required
+            min=""
+            class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
+          />
+        </div>
+        
+        <div class="space-y-3">
+          <label class="block text-[#45B4FF] font-medium">Select Time Slot:</label>
+          <div id="time_slots" class="grid grid-cols-2 gap-3">
+            <!-- Time slots will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+
+      <!-- reCAPTCHA -->
+      <div
+        class="g-recaptcha flex justify-center"
+        data-sitekey="6LeymYYrAAAAADgX0OxY3ocZwhi_RDbEEq63pjiN"
+      ></div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="bg-[#45B4FF] hover:bg-[#1e90ff] text-black font-bold py-3 px-4 rounded-xl w-full mt-4 shadow-lg transition transform hover:scale-[1.03] active:scale-95"
+      >
+        Submit Application
+      </button>
+
+      <!-- Form Message -->
+      <p
+        id="form-message"
+        class="text-center text-sm mt-2"
+        style="color: #45b4ff"
+      ></p>
+    </form>
+
+    <script>
+      // Set minimum date to today
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('interview_date').min = today;
+
+      // Available time slots (you can modify these later)
+      const timeSlots = [
+        "10:00 AM - 11:00 AM",
+        "11:00 AM - 12:00 PM",
+        "2:00 PM - 3:00 PM",
+        "3:00 PM - 4:00 PM",
+        "4:00 PM - 5:00 PM",
+        "5:00 PM - 6:00 PM"
+      ];
+
+      // Populate time slots
+      function populateTimeSlots() {
+        const timeSlotsContainer = document.getElementById('time_slots');
+        timeSlotsContainer.innerHTML = '';
+        
+        timeSlots.forEach(slot => {
+          const slotElement = document.createElement('div');
+          slotElement.className = 'time-slot p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] text-center cursor-pointer hover:border-[#45B4FF]';
+          slotElement.textContent = slot;
+          slotElement.onclick = () => selectTimeSlot(slotElement, slot);
+          timeSlotsContainer.appendChild(slotElement);
+        });
+      }
+
+      // Select time slot
+      function selectTimeSlot(element, slot) {
+        // Remove previous selection
+        document.querySelectorAll('.time-slot').forEach(el => {
+          el.classList.remove('selected');
+        });
+        
+        // Select new slot
+        element.classList.add('selected');
+        
+        // Store selected slot
+        document.getElementById('selected_time_slot').value = slot;
+      }
+
+      // Initialize time slots
+      populateTimeSlots();
+
+      // Form submission
+      document.getElementById('enquiry-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const token = grecaptcha.getResponse();
+        if (!token) {
+          alert("Please complete the reCAPTCHA.");
+          return;
+        }
+
+        // Check if time slot is selected
+        const selectedSlot = document.querySelector('.time-slot.selected');
+        if (!selectedSlot) {
+          alert("Please select a time slot for the interview.");
+          return;
+        }
+
+        const form = e.target;
+        const formData = new FormData(form);
+        
+        // Add selected time slot to form data
+        formData.append('selected_time_slot', selectedSlot.textContent);
+        
+        const data = Object.fromEntries(formData.entries());
+        data.token = token;
+
+        document.getElementById("loader-overlay").classList.remove("hidden");
+
+        // For now, simulate API call (replace with actual API endpoint)
+        setTimeout(() => {
+          document.getElementById("loader-overlay").classList.add("hidden");
+          form.reset();
+          grecaptcha.reset();
+          document.querySelectorAll('.time-slot').forEach(el => {
+            el.classList.remove('selected');
+          });
+          document.getElementById("success-modal").classList.remove("hidden");
+          document.getElementById("form-message").textContent = "";
+        }, 2000);
+
+        // Uncomment below for actual API integration
+        /*
+        fetch('YOUR_API_ENDPOINT', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+          .then(async (res) => {
+            const result = await res.json();
+            document.getElementById("loader-overlay").classList.add("hidden");
+            if (res.ok) {
+              form.reset();
+              grecaptcha.reset();
+              document.querySelectorAll('.time-slot').forEach(el => {
+                el.classList.remove('selected');
+              });
+              document.getElementById("success-modal").classList.remove("hidden");
+              document.getElementById("form-message").textContent = "";
+            } else {
+              document.getElementById("form-message").textContent =
+                result.message || "Something went wrong. Please try again.";
+            }
+          })
+          .catch(() => {
+            document.getElementById("loader-overlay").classList.add("hidden");
+            document.getElementById("form-message").textContent =
+              "Something went wrong. Please try again.";
+          });
+        */
+      });
+
+      // Close modal
+      document.getElementById("close-modal").onclick = function () {
+        document.getElementById("success-modal").classList.add("hidden");
+      };
+
+      // Email validation for SRM email
+      document.querySelector('input[name="srm_email"]').addEventListener('blur', function() {
+        const email = this.value;
+        if (email && !email.endsWith('@srmist.edu.in')) {
+          this.setCustomValidity('Please enter a valid SRM email address (@srmist.edu.in)');
+        } else {
+          this.setCustomValidity('');
+        }
+      });
+    </script>
+  </body>
+</html> 
