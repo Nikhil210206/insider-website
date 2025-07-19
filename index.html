@@ -206,9 +206,11 @@
             type="file"
             name="resume"
             accept="application/pdf"
+            id="resumeInput"
             class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-[#45B4FF] file:text-black hover:file:bg-[#1e90ff] transition shadow-sm"
           />
           <p class="text-xs text-[#45B4FF] mt-1">Max file size: 2MB. Only PDF files are allowed.</p>
+          <a id="resumeViewLink" href="#" target="_blank" class="hidden text-[#45B4FF] underline text-sm mt-2 inline-block">View uploaded resume</a>
         </div>
       </div>
 
@@ -333,6 +335,27 @@
       // Initialize time slots
       populateTimeSlots();
 
+      // Resume upload preview and link
+      const resumeInput = document.getElementById('resumeInput');
+      const resumeViewLink = document.getElementById('resumeViewLink');
+      resumeInput.addEventListener('change', function() {
+        if (resumeInput.files && resumeInput.files.length > 0) {
+          const file = resumeInput.files[0];
+          if (file.type === 'application/pdf' && file.size <= 2 * 1024 * 1024) {
+            const fileURL = URL.createObjectURL(file);
+            resumeViewLink.href = fileURL;
+            resumeViewLink.classList.remove('hidden');
+            resumeViewLink.textContent = 'View uploaded resume';
+          } else {
+            resumeViewLink.href = '#';
+            resumeViewLink.classList.add('hidden');
+          }
+        } else {
+          resumeViewLink.href = '#';
+          resumeViewLink.classList.add('hidden');
+        }
+      });
+
       // Form submission
       document.getElementById('enquiry-form').addEventListener('submit', function (e) {
         e.preventDefault();
@@ -369,6 +392,9 @@
           });
           document.getElementById("success-modal").classList.remove("hidden");
           document.getElementById("form-message").textContent = "";
+          // After form reset, also hide the resume link
+          resumeViewLink.href = '#';
+          resumeViewLink.classList.add('hidden');
         }, 2000);
 
         // Uncomment below for actual API integration
