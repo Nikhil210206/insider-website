@@ -199,6 +199,17 @@
           required
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
         />
+        <!-- Optional Resume Upload -->
+        <div>
+          <label class="block text-[#45B4FF] font-medium mb-1">Upload Resume (PDF, optional)</label>
+          <input
+            type="file"
+            name="resume"
+            accept="application/pdf"
+            class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-[#45B4FF] file:text-black hover:file:bg-[#1e90ff] transition shadow-sm"
+          />
+          <p class="text-xs text-[#45B4FF] mt-1">Max file size: 2MB. Only PDF files are allowed.</p>
+        </div>
       </div>
 
       <!-- Motivation Section -->
@@ -328,6 +339,19 @@
 
         const form = e.target;
         const formData = new FormData(form);
+        // Validate resume file type and size if provided
+        const resumeInput = form.querySelector('input[name="resume"]');
+        if (resumeInput && resumeInput.files.length > 0) {
+          const file = resumeInput.files[0];
+          if (file.type !== 'application/pdf') {
+            alert('Only PDF files are allowed for resume upload.');
+            return;
+          }
+          if (file.size > 2 * 1024 * 1024) { // 2MB
+            alert('Resume file size should not exceed 2MB.');
+            return;
+          }
+        }
         
         // Add selected time slot to form data
         formData.append('selected_time_slot', document.querySelector('.time-slot.selected').textContent);
