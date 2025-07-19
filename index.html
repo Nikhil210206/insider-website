@@ -333,27 +333,13 @@
       document.getElementById('enquiry-form').addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const token = grecaptcha.getResponse();
-        if (!token) {
-          alert("Please complete the reCAPTCHA.");
-          return;
-        }
-
-        // Check if time slot is selected
-        const selectedSlot = document.querySelector('.time-slot.selected');
-        if (!selectedSlot) {
-          alert("Please select a time slot for the interview.");
-          return;
-        }
-
         const form = e.target;
         const formData = new FormData(form);
         
         // Add selected time slot to form data
-        formData.append('selected_time_slot', selectedSlot.textContent);
+        formData.append('selected_time_slot', document.querySelector('.time-slot.selected').textContent);
         
         const data = Object.fromEntries(formData.entries());
-        data.token = token;
 
         document.getElementById("loader-overlay").classList.remove("hidden");
 
@@ -361,7 +347,6 @@
         setTimeout(() => {
           document.getElementById("loader-overlay").classList.add("hidden");
           form.reset();
-          grecaptcha.reset();
           document.querySelectorAll('.time-slot').forEach(el => {
             el.classList.remove('selected');
           });
@@ -381,7 +366,6 @@
             document.getElementById("loader-overlay").classList.add("hidden");
             if (res.ok) {
               form.reset();
-              grecaptcha.reset();
               document.querySelectorAll('.time-slot').forEach(el => {
                 el.classList.remove('selected');
               });
