@@ -140,7 +140,7 @@
         <input
           type="text"
           name="name"
-          placeholder="Full Name"
+          placeholder="Full Name *"
           required
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
         />
@@ -148,7 +148,7 @@
         <input
           type="email"
           name="srm_email"
-          placeholder="SRM Email ID (@srmist.edu.in)"
+          placeholder="SRM Email ID (@srmist.edu.in) *"
           pattern="[a-z0-9._%+-]+@srmist\.edu\.in$"
           required
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
@@ -157,7 +157,7 @@
         <input
           type="email"
           name="personal_email"
-          placeholder="Personal Email ID"
+          placeholder="Personal Email ID *"
           required
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
         />
@@ -165,7 +165,7 @@
         <input
           type="tel"
           name="mobile"
-          placeholder="Mobile Number"
+          placeholder="Mobile Number *"
           pattern="[0-9]{10}"
           required
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
@@ -174,7 +174,7 @@
         <input
           type="text"
           name="registration_number"
-          placeholder="SRM Registration Number"
+          placeholder="SRM Registration Number *"
           required
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
         />
@@ -187,7 +187,7 @@
         <input
           type="url"
           name="github"
-          placeholder="GitHub Profile URL"
+          placeholder="GitHub Profile URL *"
           required
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
         />
@@ -195,7 +195,7 @@
         <input
           type="url"
           name="linkedin"
-          placeholder="LinkedIn Profile URL"
+          placeholder="LinkedIn Profile URL *"
           required
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
         />
@@ -220,7 +220,7 @@
         
         <textarea
           name="why_join"
-          placeholder="Why do you want to join the SRM Insider Community?"
+          placeholder="Why do you want to join the SRM Insider Community? *"
           required
           rows="4"
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm resize-none"
@@ -228,7 +228,7 @@
         
         <textarea
           name="standout"
-          placeholder="What makes you stand out from other candidates?"
+          placeholder="What makes you stand out from other candidates? *"
           required
           rows="4"
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm resize-none"
@@ -254,7 +254,7 @@
         <h3 class="text-xl font-bold" style="color: #45b4ff">Interview Scheduling</h3>
         
         <div class="space-y-3">
-          <label class="block text-[#45B4FF] font-medium">Select Interview Date:</label>
+          <label class="block text-[#45B4FF] font-medium">Select Interview Date: <span class="text-red-500">*</span></label>
           <input
             type="date"
             name="interview_date"
@@ -266,7 +266,7 @@
         </div>
         
         <div class="space-y-3">
-          <label class="block text-[#45B4FF] font-medium">Select Time Slot:</label>
+          <label class="block text-[#45B4FF] font-medium">Select Time Slot: <span class="text-red-500">*</span></label>
           <div id="time_slots" class="grid grid-cols-2 gap-3">
             <!-- Time slots will be populated by JavaScript -->
           </div>
