@@ -179,23 +179,30 @@
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
         />
         <label class="block text-[#45B4FF] font-medium mt-2 mb-1">Select Your Domain: <span class="text-red-500">*</span></label>
-        <select
-          name="domain"
-          required
-          class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
-        >
-          <option value="" disabled selected>Select your domain</option>
-          <option value="CSE">CSE (Computer Science & Engineering)</option>
-          <option value="IT">IT (Information Technology)</option>
-          <option value="ECE">ECE (Electronics & Communication Engineering)</option>
-          <option value="EEE">EEE (Electrical & Electronics Engineering)</option>
-          <option value="MECH">MECH (Mechanical Engineering)</option>
-          <option value="CIVIL">CIVIL (Civil Engineering)</option>
-          <option value="BIOTECH">BIOTECH (Biotechnology)</option>
-          <option value="CHEM">CHEM (Chemical Engineering)</option>
-          <option value="AERO">AERO (Aerospace Engineering)</option>
-          <option value="Other">Other</option>
-        </select>
+        <div class="relative">
+          <select
+            name="domain"
+            required
+            class="w-full appearance-none p-3 pr-10 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:border-[#45B4FF] focus:bg-[#23262F] transition shadow-sm hover:border-[#45B4FF] cursor-pointer"
+          >
+            <option value="" disabled selected>Select your domain</option>
+            <option value="CSE">CSE (Computer Science & Engineering)</option>
+            <option value="IT">IT (Information Technology)</option>
+            <option value="ECE">ECE (Electronics & Communication Engineering)</option>
+            <option value="EEE">EEE (Electrical & Electronics Engineering)</option>
+            <option value="MECH">MECH (Mechanical Engineering)</option>
+            <option value="CIVIL">CIVIL (Civil Engineering)</option>
+            <option value="BIOTECH">BIOTECH (Biotechnology)</option>
+            <option value="CHEM">CHEM (Chemical Engineering)</option>
+            <option value="AERO">AERO (Aerospace Engineering)</option>
+            <option value="Other">Other</option>
+          </select>
+          <span class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+            <svg class="w-5 h-5 text-[#45B4FF]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </span>
+        </div>
       </div>
 
       <!-- Social Media Section -->
