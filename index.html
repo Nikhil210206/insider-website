@@ -16,7 +16,6 @@
         filter: invert(1) hue-rotate(180deg) !important;
       }
       
-      /* Custom scrollbar */
       ::-webkit-scrollbar {
         width: 8px;
       }
@@ -31,12 +30,10 @@
         background: #1e90ff;
       }
       
-      /* Date picker styling */
       input[type="date"]::-webkit-calendar-picker-indicator {
         filter: invert(1) hue-rotate(180deg);
       }
       
-      /* Time slot styling */
       .time-slot {
         transition: all 0.3s ease;
       }
@@ -51,7 +48,6 @@
     </style>
   </head>
   <body class="bg-black min-h-screen flex items-center justify-center p-4">
-    <!-- Loader Overlay -->
     <div
       id="loader-overlay"
       class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-70 hidden"
@@ -81,7 +77,6 @@
       </div>
     </div>
 
-    <!-- Success Modal -->
     <div
       id="success-modal"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 hidden"
@@ -110,12 +105,10 @@
       </div>
     </div>
 
-    <!-- Main Form -->
     <form
       id="enquiry-form"
       class="bg-[#181A20] shadow-2xl rounded-2xl px-8 pt-8 pb-8 mb-4 w-full max-w-2xl space-y-6 border border-[#23262F] max-h-[90vh] overflow-y-auto"
     >
-      <!-- Header -->
       <div class="flex flex-col items-center mb-6">
         <img
           src="https://res.cloudinary.com/dnyqwoeyh/image/upload/v1751353460/logo_rsvmqr.jpg"
@@ -133,7 +126,6 @@
         </p>
       </div>
 
-      <!-- Personal Information Section -->
       <div class="space-y-4">
         <h3 class="text-xl font-bold" style="color: #45b4ff">Personal Information</h3>
         
@@ -198,7 +190,6 @@
         </div>
       </div>
 
-      <!-- Social Media Section -->
       <div class="space-y-4">
         <h3 class="text-xl font-bold" style="color: #45b4ff">Social Media Profiles</h3>
         
@@ -217,7 +208,6 @@
           required
           class="w-full p-3 bg-[#23262F] border border-[#353945] rounded-xl text-[#45B4FF] placeholder-[#45B4FF] focus:outline-none focus:ring-2 focus:ring-[#45B4FF] focus:bg-[#23262F] transition shadow-sm"
         />
-        <!-- Optional Resume Upload -->
         <div>
           <label class="block text-[#45B4FF] font-medium mb-1">Upload Resume</label>
           <input
@@ -232,7 +222,6 @@
         </div>
       </div>
 
-      <!-- Motivation Section -->
       <div class="space-y-4">
         <h3 class="text-xl font-bold" style="color: #45b4ff">Experience</h3>
         
@@ -259,7 +248,6 @@
         ></textarea>
       </div>
 
-      <!-- Interview Scheduling Section -->
       <div class="space-y-4">
         <h3 class="text-xl font-bold" style="color: #45b4ff">Interview Scheduling</h3>
         
@@ -278,12 +266,10 @@
         <div class="space-y-3">
           <label class="block text-[#45B4FF] font-medium">Select Time Slot: <span class="text-red-500">*</span></label>
           <div id="time_slots" class="grid grid-cols-2 gap-3">
-            <!-- Time slots will be populated by JavaScript -->
           </div>
         </div>
       </div>
 
-      <!-- Submit Button -->
       <button
         type="submit"
         class="bg-[#45B4FF] hover:bg-[#1e90ff] text-black font-bold py-3 px-4 rounded-xl w-full mt-4 shadow-lg transition transform hover:scale-[1.03] active:scale-95"
@@ -291,7 +277,6 @@
         Submit Application
       </button>
 
-      <!-- Form Message -->
       <p
         id="form-message"
         class="text-center text-sm mt-2"
@@ -300,16 +285,13 @@
     </form>
 
     <script>
-      // Set minimum date to today
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('interview_date').min = today;
 
-      // Available time slots (you can modify these later)
       const timeSlots = [
         "10:00 AM - 11:00 AM",
       ];
 
-      // Populate time slots
       function populateTimeSlots() {
         const timeSlotsContainer = document.getElementById('time_slots');
         timeSlotsContainer.innerHTML = '';
@@ -323,24 +305,18 @@
         });
       }
 
-      // Select time slot
       function selectTimeSlot(element, slot) {
-        // Remove previous selection
         document.querySelectorAll('.time-slot').forEach(el => {
           el.classList.remove('selected');
         });
         
-        // Select new slot
         element.classList.add('selected');
         
-        // Store selected slot
         document.getElementById('selected_time_slot').value = slot;
       }
 
-      // Initialize time slots
       populateTimeSlots();
 
-      // Resume upload preview and link
       const resumeInput = document.getElementById('resumeInput');
       const resumeViewLink = document.getElementById('resumeViewLink');
       resumeInput.addEventListener('change', function() {
@@ -361,13 +337,11 @@
         }
       });
 
-      // Form submission
       document.getElementById('enquiry-form').addEventListener('submit', function (e) {
         e.preventDefault();
 
         const form = e.target;
         const formData = new FormData(form);
-        // Validate resume file type and size if provided
         const resumeInput = form.querySelector('input[name="resume"]');
         if (resumeInput && resumeInput.files.length > 0) {
           const file = resumeInput.files[0];
@@ -375,20 +349,18 @@
             alert('Only PDF files are allowed for resume upload.');
             return;
           }
-          if (file.size > 2 * 1024 * 1024) { // 2MB
+          if (file.size > 2 * 1024 * 1024) { 
             alert('Resume file size should not exceed 2MB.');
             return;
           }
         }
         
-        // Add selected time slot to form data
         formData.append('selected_time_slot', document.querySelector('.time-slot.selected').textContent);
         
         const data = Object.fromEntries(formData.entries());
 
         document.getElementById("loader-overlay").classList.remove("hidden");
 
-        // For now, simulate API call (replace with actual API endpoint)
         setTimeout(() => {
           document.getElementById("loader-overlay").classList.add("hidden");
           form.reset();
@@ -397,18 +369,15 @@
           });
           document.getElementById("success-modal").classList.remove("hidden");
           document.getElementById("form-message").textContent = "";
-          // After form reset, also hide the resume link
           resumeViewLink.href = '#';
           resumeViewLink.classList.add('hidden');
         }, 2000);
       });
 
-      // Close modal
       document.getElementById("close-modal").onclick = function () {
         document.getElementById("success-modal").classList.add("hidden");
       };
 
-      // Email validation for SRM email
       document.querySelector('input[name="srm_email"]').addEventListener('blur', function() {
         const email = this.value;
         if (email && !email.endsWith('@srmist.edu.in')) {

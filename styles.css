@@ -1,6 +1,3 @@
-/* SRM Insider Community Application Form - Custom Styles */
-
-/* Custom scrollbar for the form */
 .enquiry-form::-webkit-scrollbar {
   width: 8px;
 }
@@ -19,13 +16,11 @@
   background: #1e90ff;
 }
 
-/* Date picker styling for dark theme */
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1) hue-rotate(180deg);
   cursor: pointer;
 }
 
-/* Time slot styling */
 .time-slot {
   transition: all 0.3s ease;
   position: relative;
@@ -59,17 +54,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   box-shadow: 0 4px 12px rgba(69, 180, 255, 0.3);
 }
 
-/* Input focus effects */
 .form-input:focus {
   box-shadow: 0 0 0 3px rgba(69, 180, 255, 0.1);
 }
 
-/* Button hover effects */
 .submit-btn:hover {
   box-shadow: 0 8px 25px rgba(69, 180, 255, 0.3);
 }
 
-/* Loading animation enhancement */
 .loader-spinner {
   animation: spin 1s linear infinite;
 }
@@ -83,7 +75,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
-/* Modal animations */
 .modal-enter {
   animation: modalFadeIn 0.3s ease-out;
 }
@@ -99,7 +90,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
-/* Form section transitions */
 .form-section {
   transition: all 0.3s ease;
 }
@@ -108,7 +98,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   transform: translateX(5px);
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .time-slot {
     font-size: 14px;
@@ -120,7 +109,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
-/* Accessibility improvements */
 @media (prefers-reduced-motion: reduce) {
   .time-slot,
   .form-input,
@@ -134,7 +122,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
-/* High contrast mode support */
 @media (prefers-contrast: high) {
   .time-slot {
     border-width: 2px;
@@ -145,7 +132,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
-/* Print styles */
 @media print {
   .enquiry-form {
     background: white !important;
