@@ -361,17 +361,32 @@
 
         document.getElementById("loader-overlay").classList.remove("hidden");
 
-        setTimeout(() => {
-          document.getElementById("loader-overlay").classList.add("hidden");
-          form.reset();
-          document.querySelectorAll('.time-slot').forEach(el => {
-            el.classList.remove('selected');
+        fetch('https://script.google.com/macros/s/AKfycbxCSeXCSWRfmv1qS1d7JHyjtckcjzaat_uyzhTb8pJ2M3t9oL9e1bvdPorJTkaJA7vF/exec', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+          .then(async (res) => {
+            document.getElementById("loader-overlay").classList.add("hidden");
+            if (res.ok) {
+              form.reset();
+              document.querySelectorAll('.time-slot').forEach(el => {
+                el.classList.remove('selected');
+              });
+              document.getElementById("success-modal").classList.remove("hidden");
+              document.getElementById("form-message").textContent = "";
+              resumeViewLink.href = '#';
+              resumeViewLink.classList.add('hidden');
+            } else {
+              document.getElementById("form-message").textContent =
+                "Something went wrong. Please try again.";
+            }
+          })
+          .catch(() => {
+            document.getElementById("loader-overlay").classList.add("hidden");
+            document.getElementById("form-message").textContent =
+              "Something went wrong. Please try again.";
           });
-          document.getElementById("success-modal").classList.remove("hidden");
-          document.getElementById("form-message").textContent = "";
-          resumeViewLink.href = '#';
-          resumeViewLink.classList.add('hidden');
-        }, 2000);
       });
 
       document.getElementById("close-modal").onclick = function () {
