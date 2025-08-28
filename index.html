@@ -247,87 +247,103 @@
     </form>
 
     <script>
-      const resumeInput = document.getElementById('resumeInput');
-      const resumeViewLink = document.getElementById('resumeViewLink');
-      resumeInput.addEventListener('change', function() {
-        if (resumeInput.files && resumeInput.files.length > 0) {
-          const file = resumeInput.files[0];
-          if (file.type === 'application/pdf' && file.size <= 2 * 1024 * 1024) {
-            const fileURL = URL.createObjectURL(file);
-            resumeViewLink.href = fileURL;
-            resumeViewLink.classList.remove('hidden');
-            resumeViewLink.textContent = 'View uploaded resume';
-          } else {
-            resumeViewLink.href = '#';
-            resumeViewLink.classList.add('hidden');
-          }
-        } else {
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyr2Uwhsh_JWoZ8kLwYs1NGkpF2nE5DXDrDVu2tTDz6clwfdH4DG6GrL8Yf79nk3wlZ/exec";
+  
+  const resumeInput = document.getElementById('resumeInput');
+  const resumeViewLink = document.getElementById('resumeViewLink');
+  
+  resumeInput.addEventListener('change', function() {
+    if (resumeInput.files && resumeInput.files.length > 0) {
+      const file = resumeInput.files[0];
+      if (file.type === 'application/pdf' && file.size <= 2 * 1024 * 1024) {
+        const fileURL = URL.createObjectURL(file);
+        resumeViewLink.href = fileURL;
+        resumeViewLink.classList.remove('hidden');
+        resumeViewLink.textContent = 'View uploaded resume';
+      } else {
+        resumeViewLink.href = '#';
+        resumeViewLink.classList.add('hidden');
+      }
+    } else {
+      resumeViewLink.href = '#';
+      resumeViewLink.classList.add('hidden');
+    }
+  });
+
+  const form = document.getElementById('enquiry-form');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    const resumeFile = resumeInput.files[0];
+    
+    // File validation
+    if (resumeFile) {
+        if (resumeFile.type !== 'application/pdf') {
+          alert('Only PDF files are allowed for resume upload.');
+          return;
+        }
+        if (resumeFile.size > 2 * 1024 * 1024) {
+          alert('Resume file size should not exceed 2MB.');
+          return;
+        }
+    }
+
+    document.getElementById("loader-overlay").classList.remove("hidden");
+
+    // Handle file reading if a file is present
+    if (resumeFile) {
+      const reader = new FileReader();
+      reader.onloadend = function() {
+        data.resumeFile = reader.result; // Base64 encoded file
+        data.resumeFileName = resumeFile.name;
+        data.resumeMimeType = resumeFile.type;
+        sendData(data);
+      };
+      reader.readAsDataURL(resumeFile);
+    } else {
+      sendData(data); // Send data without a file
+    }
+  });
+
+  function sendData(data) {
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(data),
+      })
+      .then(res => res.json())
+      .then(response => {
+        document.getElementById("loader-overlay").classList.add("hidden");
+        if (response.result === "success") {
+          form.reset();
+          document.getElementById("success-modal").classList.remove("hidden");
+          document.getElementById("form-message").textContent = "";
           resumeViewLink.href = '#';
           resumeViewLink.classList.add('hidden');
-        }
-      });
-
-      document.getElementById('enquiry-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const form = e.target;
-        const formData = new FormData(form);
-        const resumeInput = form.querySelector('input[name="resume"]');
-        if (resumeInput && resumeInput.files.length > 0) {
-          const file = resumeInput.files[0];
-          if (file.type !== 'application/pdf') {
-            alert('Only PDF files are allowed for resume upload.');
-            return;
-          }
-          if (file.size > 2 * 1024 * 1024) { 
-            alert('Resume file size should not exceed 2MB.');
-            return;
-          }
-        }
-        
-        // Removed line that appended selected_time_slot
-        
-        const data = Object.fromEntries(formData.entries());
-
-        document.getElementById("loader-overlay").classList.remove("hidden");
-
-        fetch('https://script.google.com/macros/s/AKfycbxCSeXCSWRfmv1qS1d7JHyjtckcjzaat_uyzhTb8pJ2M3t9oL9e1bvdPorJTkaJA7vF/exec', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        })
-          .then(async (res) => {
-            document.getElementById("loader-overlay").classList.add("hidden");
-            if (res.ok) {
-              form.reset();
-              document.getElementById("success-modal").classList.remove("hidden");
-              document.getElementById("form-message").textContent = "";
-              resumeViewLink.href = '#';
-              resumeViewLink.classList.add('hidden');
-            } else {
-              document.getElementById("form-message").textContent =
-                "Something went wrong. Please try again.";
-            }
-          })
-          .catch(() => {
-            document.getElementById("loader-overlay").classList.add("hidden");
-            document.getElementById("form-message").textContent =
-              "Something went wrong. Please try again.";
-          });
-      });
-
-      document.getElementById("close-modal").onclick = function () {
-        document.getElementById("success-modal").classList.add("hidden");
-      };
-
-      document.querySelector('input[name="srm_email"]').addEventListener('blur', function() {
-        const email = this.value;
-        if (email && !email.endsWith('@srmist.edu.in')) {
-          this.setCustomValidity('Please enter a valid SRM email address (@srmist.edu.in)');
         } else {
-          this.setCustomValidity('');
+          throw new Error(response.message || "Unknown error");
         }
+      })
+      .catch(error => {
+        document.getElementById("loader-overlay").classList.add("hidden");
+        document.getElementById("form-message").textContent =
+          "Something went wrong. Please try again. Error: " + error.message;
       });
-    </script>
+  }
+
+  document.getElementById("close-modal").onclick = function() {
+    document.getElementById("success-modal").classList.add("hidden");
+  };
+
+  document.querySelector('input[name="srm_email"]').addEventListener('blur', function() {
+    const email = this.value;
+    if (email && !email.endsWith('@srmist.edu.in')) {
+      this.setCustomValidity('Please enter a valid SRM email address (@srmist.edu.in)');
+    } else {
+      this.setCustomValidity('');
+    }
+  });
+</script>
   </body>
 </html>
